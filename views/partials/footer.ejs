@@ -1,0 +1,16 @@
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div>
+      <img src="/assets/img/Final_NoBG.png" alt="Ekamra Medical Concierge" width="160" height="72">
+      <p><%= footerText %></p>
+    </div>
+    <nav aria-label="Footer navigation">
+      <% navItems.forEach((item) => { %>
+        <a href="<%= item.href %>"><%= item.label %></a>
+      <% }) %>
+    </nav>
+  </div>
+  <a class="whatsapp-float" href="https://wa.me/" target="_blank" rel="noopener" aria-label="Open WhatsApp chat">
+    WhatsApp
+  </a>
+</footer>

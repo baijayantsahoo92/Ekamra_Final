@@ -1,20 +1,7 @@
-.DS_Store
-
-# Source/reference PDFs kept locally, not needed for website deployment.
-*.pdf
-
-# QA screenshots and extracted PDF intermediates.
-ekamra-homepage-qa.png
-assets/pdf-extracted/
-
-# Build/dependency output.
-dist/
 node_modules/
-
-# Original large generated PNGs; optimized WebP assets are committed instead.
-assets/ekamra-concierge-hero.png
-assets/ekamra-recovery-retreat.png
-assets/odisha-healing-heritage.png
-assets/odisha-pattern-texture.png
-assets/odisha-recovery-wellness.png
-assets/ekamra-medical-concierge-logo.png
+.DS_Store
+npm-debug.log*
+dist/
+.env
+data/submissions.jsonl
+qa-screenshots/

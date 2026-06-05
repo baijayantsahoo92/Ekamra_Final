@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+  <%- include("partials/head", { page }) %>
+  <body>
+    <%- include("partials/header", { currentPath }) %>
+    <main id="main" class="site-main">
+      <% if (submitted) { %>
+        <div class="notice" role="status">Thank you. Your request has been received.</div>
+      <% } %>
+      <% if (page.showTitle) { %>
+        <section class="page-hero">
+          <div class="container">
+            <p class="eyebrow">Ekamra Medical Concierge</p>
+            <h1><%= page.title %></h1>
+          </div>
+        </section>
+      <% } %>
+      <% if (page.slug === "home") { %>
+        <section id="top" class="landing-experience" aria-labelledby="landing-title">
+          <div class="landing-backdrop" aria-hidden="true"></div>
+          <div class="container landing-grid">
+            <div class="landing-copy">
+              <p class="landing-kicker">Premium Medical Concierge in India</p>
+              <h1 id="landing-title">Ekamra</h1>
+              <p class="landing-intro">A trusted gateway to advanced healthcare, personal advocacy, seamless travel coordination, and restorative recovery in Odisha.</p>
+              <div class="landing-actions">
+                <a class="landing-primary" href="#section-contact">Book a Free Consultation</a>
+                <a class="landing-secondary" href="#section-whyus">Explore Ekamra</a>
+              </div>
+            </div>
+            <div class="landing-panel" aria-label="Ekamra care highlights">
+              <div>
+                <strong>Tier-1 Care</strong>
+                <span>JCI & NABH hospital access</span>
+              </div>
+              <div>
+                <strong>Personal Advocacy</strong>
+                <span>Care manager support</span>
+              </div>
+              <div>
+                <strong>Recovery Sanctuary</strong>
+                <span>Wellness-led post-care</span>
+              </div>
+            </div>
+          </div>
+        </section>
+        <div class="one-page-flow">
+          <% pages.forEach((sectionPage, index) => { %>
+            <section id="<%= sectionPage.sectionId %>" class="one-page-section section-<%= sectionPage.slug %> tone-<%= index % 3 %>">
+              <% if (sectionPage.slug !== "home") { %>
+                <div class="container section-heading">
+                  <p class="eyebrow">Ekamra Medical Concierge</p>
+                  <h2><%= sectionPage.title %></h2>
+                </div>
+              <% } %>
+              <article class="content-shell content-<%= sectionPage.slug %>">
+                <%- sectionPage.content %>
+              </article>
+            </section>
+          <% }) %>
+        </div>
+      <% } else { %>
+        <article class="content-shell content-<%= page.slug %>">
+          <%- page.content %>
+        </article>
+      <% } %>
+      <a class="book-float" href="/#section-contact">Book Consultation</a>
+      <a class="top-float" href="/#top" aria-label="Back to Top">Back to Top</a>
+    </main>
+    <%- include("partials/footer") %>
+    <script src="/assets/app.js?v=12" defer></script>
+  </body>
+</html>

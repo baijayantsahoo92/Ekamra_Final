@@ -1,14 +1,22 @@
 {
-  "name": "ekamra-medical-concierge",
+  "name": "ekamra-wordpress",
   "version": "1.0.0",
-  "private": true,
-  "type": "module",
+  "description": "",
+  "main": "server.js",
   "scripts": {
-    "dev": "vite --host 0.0.0.0",
-    "build": "vite build",
-    "preview": "vite preview --host 0.0.0.0"
+    "start": "node server.js",
+    "dev": "node server.js",
+    "test": "node --check server.js && node --check src/content.js"
   },
-  "devDependencies": {
-    "vite": "^7.2.4"
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "compression": "^1.8.1",
+    "ejs": "^6.0.1",
+    "express": "^5.2.1",
+    "helmet": "^8.2.0",
+    "morgan": "^1.11.0"
   }
 }
