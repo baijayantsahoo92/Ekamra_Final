@@ -156,7 +156,11 @@ const pages = Object.entries(pageMeta).map(([slug, meta]) => {
 
   if (slug === "contact") {
     const introParagraphs = content.match(/<p class="wp-block-paragraph">[\s\S]*?<\/p>/g)?.slice(0, 2) || [];
-    content = `${introParagraphs.join("\n")}${consultationForm()}`;
+    const corporateStart = content.lastIndexOf(
+      '<hr class="wp-block-separator alignwide has-text-color has-color-3-color',
+    );
+    const corporateOutreach = corporateStart >= 0 ? content.slice(corporateStart) : "";
+    content = `${introParagraphs.join("\n")}${consultationForm()}<div class="corporate-outreach-wrap">${corporateOutreach}</div>`;
   }
 
   return {
