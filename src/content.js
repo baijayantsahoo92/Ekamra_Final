@@ -80,6 +80,10 @@ const pageMeta = {
 function normalizeContent(html) {
   return html
     .replace("<strong>Dedicated Patient Advocat</strong>e", "<strong>Dedicated Patient Advocate</strong>")
+    .replace(
+      /We bridge the gap between world-class,<strong> JCI and NABH<\/strong> accredited tertiary healthcare &#8211; <em><strong>Apollo Hospitals, Care Hospitals, AIIMS <\/strong><\/em>&#8211; being few of them,\s+and the serene, recuperative power of Odisha&#8217;s natural beauty\. By choosing the name Ekamra, we pledge to envelop you and your family in a seamless world of Clinical Excellence, Absolute Operational Transparency, and Deeply Empathetic, Stress-free Hospitality\.\s*/,
+      "We bridge the gap between world-class, JCI and NABH accredited tertiary healthcare – Apollo Hospitals, Care Hospitals, AIIMS – being few of them, and the serene, recuperative power of Odisha’s natural beauty. By choosing the name Ekamra, we pledge to envelop you and your family in a seamless world of Clinical Excellence, Absolute Operational Transparency, and Deeply Empathetic, Stress-free Hospitality",
+    )
     .replace(/https:\/\/ekamra\.life\/wp-content\/uploads\/(?:\d{4}\/\d{2}\/)?([^"'<> )]+)/g, "/assets/img/$1")
     .replace(/https:\/\/ekamra\.life\/wp-content\/plugins\/wpforms-lite\/assets\/images\/submit-spin\.svg/g, "/assets/submit-spin.svg")
     .replace(/href="https:\/\/ekamra\.life\/"/g, 'href="/"')
