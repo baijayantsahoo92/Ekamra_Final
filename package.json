@@ -1,17 +1,23 @@
 {
-  "name": "ekamra-wordpress",
+  "name": "ekamra-medical-concierge",
   "version": "1.0.0",
-  "description": "",
+  "description": "Ekamra Medical Concierge Node.js website",
+  "private": true,
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
     "dev": "node server.js",
+    "build": "npm run test",
     "test": "node --check server.js && node --check src/content.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
+  "engines": {
+    "node": ">=20 <25",
+    "npm": ">=10"
+  },
   "dependencies": {
     "compression": "^1.8.1",
     "ejs": "^6.0.1",

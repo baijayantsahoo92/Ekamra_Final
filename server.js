@@ -8,9 +8,13 @@ const { pages, navItems, footerText, getPageByPath } = require("./src/content");
 
 const app = express();
 const port = process.env.PORT || 3000;
+const host = process.env.HOST || "0.0.0.0";
+const submissionsFile =
+  process.env.SUBMISSIONS_FILE || path.join(__dirname, "data", "submissions.jsonl");
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
+app.set("trust proxy", 1);
 
 app.use(helmet({ contentSecurityPolicy: false }));
 app.use(compression());
@@ -46,8 +50,12 @@ app.post(["/contact", "/contact/"], (req, res) => {
     receivedAt: new Date().toISOString(),
     body: req.body,
   };
-  fs.mkdirSync(path.join(__dirname, "data"), { recursive: true });
-  fs.appendFileSync(path.join(__dirname, "data", "submissions.jsonl"), `${JSON.stringify(submission)}\n`);
+  try {
+    fs.mkdirSync(path.dirname(submissionsFile), { recursive: true });
+    fs.appendFileSync(submissionsFile, `${JSON.stringify(submission)}\n`);
+  } catch (error) {
+    console.error("Unable to persist contact submission", error.message);
+  }
   console.log("Consultation/contact form submission", JSON.stringify(req.body, null, 2));
   const referer = req.get("referer") || "";
   let refererPath = "";
@@ -71,6 +79,14 @@ app.use((req, res) => {
   });
 });
 
-app.listen(port, () => {
-  console.log(`Ekamra Node website running at http://localhost:${port}`);
+const server = app.listen(port, host, () => {
+  console.log(`Ekamra Node website running on ${host}:${port}`);
 });
+
+function shutdown(signal) {
+  console.log(`${signal} received, shutting down`);
+  server.close(() => process.exit(0));
+}
+
+process.on("SIGTERM", () => shutdown("SIGTERM"));
+process.on("SIGINT", () => shutdown("SIGINT"));
