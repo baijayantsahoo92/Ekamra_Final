@@ -95,15 +95,76 @@ function findSource(slug) {
   return sourcePages.find((page) => page.slug === slug);
 }
 
+const primaryCareOptions = [
+  "Cardiology and Heart Care",
+  "Oncology and Cancer Care",
+  "Orthopedics and Joint Care",
+  "Neurology and Spine Care",
+  "Womens Health and Maternity",
+  "Critical Care and Robotics Surgery",
+  "Dental Care",
+  "Ophthalmology (Eye Care)",
+];
+
+function consultationForm() {
+  const options = primaryCareOptions
+    .map((option) => `<option value="${option}">${option}</option>`)
+    .join("");
+
+  return `
+    <div class="consultation-form-wrap">
+      <form class="consultation-form" method="post" action="/contact/">
+        <div class="form-grid">
+          <div class="form-field">
+            <label for="consultation-first-name">First Name</label>
+            <input id="consultation-first-name" name="firstName" type="text" autocomplete="given-name">
+          </div>
+          <div class="form-field">
+            <label for="consultation-last-name">Last Name</label>
+            <input id="consultation-last-name" name="lastName" type="text" autocomplete="family-name">
+          </div>
+          <div class="form-field">
+            <label for="consultation-phone">Phone Number</label>
+            <input id="consultation-phone" name="phone" type="tel" autocomplete="tel">
+          </div>
+          <div class="form-field">
+            <label for="consultation-email">Email <span aria-hidden="true">*</span></label>
+            <input id="consultation-email" name="email" type="email" autocomplete="email" required>
+          </div>
+          <div class="form-field">
+            <label for="consultation-state">State</label>
+            <input id="consultation-state" name="state" type="text" autocomplete="address-level1">
+          </div>
+          <div class="form-field">
+            <label for="consultation-country">Country</label>
+            <input id="consultation-country" name="country" type="text" autocomplete="country-name">
+          </div>
+          <div class="form-field form-field-wide">
+            <label for="consultation-care">Primary Medical Care Needed</label>
+            <select id="consultation-care" name="primaryCare">${options}</select>
+          </div>
+        </div>
+        <button type="submit" data-alt-text="Sending...">Request Free Consultation</button>
+      </form>
+    </div>`;
+}
+
 const pages = Object.entries(pageMeta).map(([slug, meta]) => {
   const sourceSlug = slug === "home" ? "home" : slug;
   const source = findSource(sourceSlug);
+  let content = normalizeContent(source ? source.content.rendered : "");
+
+  if (slug === "contact") {
+    const introParagraphs = content.match(/<p class="wp-block-paragraph">[\s\S]*?<\/p>/g)?.slice(0, 2) || [];
+    content = `${introParagraphs.join("\n")}${consultationForm()}`;
+  }
+
   return {
     slug,
     ...meta,
     sectionId: `section-${slug}`,
     canonical: `https://ekamra.life${meta.path}`,
-    content: normalizeContent(source ? source.content.rendered : ""),
+    content,
   };
 });
 
