@@ -79,6 +79,7 @@ const pageMeta = {
 
 function normalizeContent(html) {
   return html
+    .replace("<strong>Dedicated Patient Advocat</strong>e", "<strong>Dedicated Patient Advocate</strong>")
     .replace(/https:\/\/ekamra\.life\/wp-content\/uploads\/(?:\d{4}\/\d{2}\/)?([^"'<> )]+)/g, "/assets/img/$1")
     .replace(/https:\/\/ekamra\.life\/wp-content\/plugins\/wpforms-lite\/assets\/images\/submit-spin\.svg/g, "/assets/submit-spin.svg")
     .replace(/href="https:\/\/ekamra\.life\/"/g, 'href="/"')
