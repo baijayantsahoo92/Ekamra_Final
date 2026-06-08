@@ -77,8 +77,55 @@ const pageMeta = {
   },
 };
 
+function removeImportedCtaRows(html) {
+  const marker = '<div class="wp-block-buttons';
+  let output = "";
+  let cursor = 0;
+
+  while (cursor < html.length) {
+    const start = html.indexOf(marker, cursor);
+    if (start === -1) {
+      output += html.slice(cursor);
+      break;
+    }
+
+    output += html.slice(cursor, start);
+
+    let depth = 0;
+    let position = start;
+    let end = -1;
+    const tagPattern = /<\/?div\b[^>]*>/g;
+
+    for (const match of html.slice(start).matchAll(tagPattern)) {
+      position = start + match.index;
+      if (match[0].startsWith("</")) {
+        depth -= 1;
+        if (depth === 0) {
+          end = position + match[0].length;
+          break;
+        }
+      } else {
+        depth += 1;
+      }
+    }
+
+    if (end === -1) {
+      output += html.slice(start);
+      break;
+    }
+
+    const block = html.slice(start, end);
+    if (!block.includes("Book a Free Consultation")) {
+      output += block;
+    }
+    cursor = end;
+  }
+
+  return output;
+}
+
 function normalizeContent(html) {
-  return html
+  return removeImportedCtaRows(html)
     .replace("<strong>Dedicated Patient Advocat</strong>e", "<strong>Dedicated Patient Advocate</strong>")
     .replace(
       /We bridge the gap between world-class,<strong> JCI and NABH<\/strong> accredited tertiary healthcare &#8211; <em><strong>Apollo Hospitals, Care Hospitals, AIIMS <\/strong><\/em>&#8211; being few of them,\s+and the serene, recuperative power of Odisha&#8217;s natural beauty\. By choosing the name Ekamra, we pledge to envelop you and your family in a seamless world of Clinical Excellence, Absolute Operational Transparency, and Deeply Empathetic, Stress-free Hospitality\.\s*/,
